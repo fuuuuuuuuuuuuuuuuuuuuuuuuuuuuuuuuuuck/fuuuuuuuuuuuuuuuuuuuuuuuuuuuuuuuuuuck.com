@@ -9,7 +9,7 @@ const resource = require('koa-static')
 const path = require('path')
 
 
-const routes = require('../routes')
+const routes = require('./routes')
 const config = require('../config/config')
 
 const app = new Koa()

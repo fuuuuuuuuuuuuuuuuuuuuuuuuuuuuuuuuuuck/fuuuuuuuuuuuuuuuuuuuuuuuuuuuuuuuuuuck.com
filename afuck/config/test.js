@@ -1,3 +1,7 @@
-/**
- * Created by foxtail on 17/5/27.
- */
+const port = Number.parseInt(process.env.PORT) || 7000
+
+module.exports = {
+    port,
+    redisUrl: '',
+    secretKeyBase: ''
+}
