@@ -37,9 +37,9 @@
 
     <router-view class="layout-view"></router-view>
 
-    <!-- Footer
+
     <div slot="footer" class="toolbar"></div>
-    -->
+
   </q-layout>
 </template>
 

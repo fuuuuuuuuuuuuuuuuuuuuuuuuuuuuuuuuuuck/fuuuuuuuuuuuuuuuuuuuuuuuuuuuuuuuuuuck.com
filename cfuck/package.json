@@ -1,8 +1,8 @@
 {
-  "name": "quasar-app",
+  "name": "fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuck",
   "version": "0.0.1",
-  "description": "A Quasar App",
-  "author": "Your Name",
+  "description": "a angry website",
+  "author": "foxtail000",
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-runtime": "^6.0.0",
     "fastclick": "^1.0.6",
+    "granim": "^1.0.6",
     "material-design-icons": "^3.0.1",
     "moment": "^2.15.0",
     "quasar-framework": "^0.13.4",

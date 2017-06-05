@@ -22,6 +22,7 @@ export default new VueRouter({
 
   routes: [
     { path: '/', component: load('Index') }, // Default
+    { path: '/home', component: load('Home') },
     { path: '*', component: load('Error404') } // Not found
   ]
 })

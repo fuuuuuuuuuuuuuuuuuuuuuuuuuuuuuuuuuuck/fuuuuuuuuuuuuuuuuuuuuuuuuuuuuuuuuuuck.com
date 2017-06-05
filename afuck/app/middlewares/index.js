@@ -9,7 +9,7 @@ readdirSync(__dirname)
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach((file) => {
-        middleware[file] = require(path.join(dirname, file))
+        middleware[file.split('.')[0]] = require(path.join(__dirname, file))
     })
 
 module.exports = middleware

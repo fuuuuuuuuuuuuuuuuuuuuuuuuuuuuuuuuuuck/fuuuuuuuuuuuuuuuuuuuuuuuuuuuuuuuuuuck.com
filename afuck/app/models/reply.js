@@ -1,7 +1,7 @@
 // topic model
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('topic', {
+    return sequelize.define('reply', {
         id: {
             type: DataTypes.BIGINT(20).UNSIGNED,
             allowNull: false,
@@ -12,21 +12,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BIGINT(20),
             allowNull: false
         },
-        title: {
-            type: DataTypes.STRING(191),
+        TopicId: {
+            type: DataTypes.BIGINT(20),
             allowNull: false
+        },
+        toUser: {
+            type: DataTypes.BIGINT(20),
+            allowNull: true
         },
         content: {
             type: DataTypes.TEXT,
             allowNull: false
-        },
-        examine: {
-            type: DataTypes.STRING(10),
-            allowNull:false,
-            defaultValue: '0' // 0:审核中, 1: 通过 , -1 : 未通过
-        },
-        remark: {
-            type: DataTypes.TEXT
         },
         createdAt: {
             type: DataTypes.DATE,

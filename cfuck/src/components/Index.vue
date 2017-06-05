@@ -141,15 +141,4 @@ export default {
 </script>
 
 <style lang="stylus">
-.logo-container
-  width 192px
-  height 268px
-  perspective 800px
-  position absolute
-  top 50%
-  left 50%
-  transform translateX(-50%) translateY(-50%)
-.logo
-  position absolute
-  transform-style preserve-3d
 </style>

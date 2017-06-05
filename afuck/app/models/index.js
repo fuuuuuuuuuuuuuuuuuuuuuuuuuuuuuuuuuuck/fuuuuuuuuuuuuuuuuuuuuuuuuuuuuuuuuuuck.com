@@ -16,7 +16,7 @@ readdirSync(__dirname)
     })
     .forEach((file) => {
         let model = sequelize.import(path.join(__dirname, file))
-        db[model.name] = model
+        db[model.name.replace(/^\S/,function(s){return s.toUpperCase()})] = model
     })
 
 Object
@@ -29,6 +29,6 @@ Object
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
-//db.sequelize.sync()
+db.sequelize.sync()
 
 module.exports = db
