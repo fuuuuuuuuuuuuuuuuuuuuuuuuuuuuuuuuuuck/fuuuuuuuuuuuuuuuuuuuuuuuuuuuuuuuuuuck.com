@@ -1,59 +1,42 @@
 
 const { Token, Reply, Topic } = require('../models')
+const FuckError = require('../error')
 
-console.log(Token)
-
-//const getToken = async (ctx, next) => {
-//    const token = ctx.query.token
-//    if( !token ){
-//        return ( 401, 'UNAUTHORIZED')
-//    }
-//    return await next()
-//}
 const checkToken = {
     isUser : async (ctx, next) => {
         const token = ctx.query.token
         if( !token ){
-            return ( 401, 'UNAUTHORIZED')
+            return ctx.throw( new FuckError(401, 'UNAUTHORIZED','TOKEN IS REQUIRED'))
         }
         let rlt
-        try{
-            rlt = await Token.find({
-            })
-        }
-        catch(err){
-            console.log('1',err)
-        }
+        rlt = await Token.findOne({
+            where: {
+                token
+            }
+        })
 
         if ( !rlt ){
-            return (401, 'UNAUTHORIZED')
+            return ctx.throw(new FuckError(400, 'BAD REQUEST','USER IS INVALID' ))
         }
         return await next()
-
 
     },
     isAdmin : async (ctx, next) => {
         const token = ctx.query.token
         if( !token ){
-            return ( 401, 'UNAUTHORIZED')
+            return ctx.throw( new FuckError(401, 'UNAUTHORIZED','TOKEN IS REQUIRED'))
         }
         let rlt
-        try{
-            rlt = await Token.findOne({
-                where: {
-                    token: token
-                }
-            })
-        }
-        catch(err){
-            console.log('3',err)
-        }
-
+        rlt = await Token.findOne({
+            where: {
+                token: token
+            }
+        })
         if ( !rlt ){
-            return (401, 'UNAUTHORIZED')
+            return ctx.throw(new FuckError(400, 'BAD REQUEST','USER IS INVALID' ))
         }
         if ( rlt.type !== 'ADMIN'){
-            return (401, 'UNAUTHORIZED')
+            return ctx.throw( new FuckError(403, 'FORBIDDEN','PERMISSION DENIED'))
         }
         return await next()
 
@@ -76,26 +59,20 @@ const checkToken = {
             })
         }
         if(!_info){
-            return ctx.throw(404,' NOT FOUND ID')
+            return ctx.throw(new FuckError(400, 'BAD REQUEST','USER IS INVALID' ))
         }
         const token = ctx.query.token
         if( !token ){
-            return ( 401, 'UNAUTHORIZED')
+            return ctx.throw( new FuckError(400, 'BAD REQUEST','TOKEN IS REQUIRED'))
         }
         let rlt
-        try {
-            rlt = await Token.findOne({
-                where: {
-                    token: token
-                }
-            })
-        }
-        catch(err){
-            console.log('2',err)
-        }
-
+        rlt = await Token.findOne({
+            where: {
+                token: token
+            }
+        })
         if( rlt.userId !== _info.userId){
-            return ctx.throw('401', 'UNAUTHORIZED')
+            return ctx.throw( new FuckError(403, 'FORBIDDEN','PERMISSION DENIED'))
         }
 
         return await next()

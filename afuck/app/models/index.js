@@ -12,7 +12,7 @@ const db = {}
 
 readdirSync(__dirname)
     .filter((file) =>{
-        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
     })
     .forEach((file) => {
         let model = sequelize.import(path.join(__dirname, file))

@@ -36,5 +36,9 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.NOW,
             readonly: true
         }
+    }, {
+        defaultScope: {
+            attributes: ['id', 'name', 'nickname', 'sex']
+        },
     })
 }

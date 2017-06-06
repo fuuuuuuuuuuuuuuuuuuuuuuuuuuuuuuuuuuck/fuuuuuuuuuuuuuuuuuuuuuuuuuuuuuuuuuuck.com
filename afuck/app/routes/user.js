@@ -3,10 +3,14 @@ const middle = require('../middlewares')
 const { User,Token } = require('../models')
 const crypto = require('crypto')
 const router = Router()
+const FuckError = require('../error')
 
 //登陆
 router.post('/sigin', async (ctx, next) => {
     const { name, password } = ctx.request.body
+    if( !name || !password ){
+        return ctx.throw(new FuckError(400, 'BAD_REQUEST', 'NAME AND PASSWORD IS REQUIRED'))
+    }
     const pwd = crypto.createHmac('sha256', password).update('fuck').digest('hex')
     const user = await User.findOne({
         where : {
@@ -15,7 +19,7 @@ router.post('/sigin', async (ctx, next) => {
         }
     })
     if( !user ){
-        return ctx.throw(404, 'NAME OR PASSWORD ERR')
+        return ctx.throw(new FuckError(400, 'BAD_REQUEST', 'NAME OR PASSWORD IS WRONG'))
     }
     const token = crypto.createHmac('sha256', new Date().getTime().toString() ).update('fuck').digest('hex')
     const tokenInfo = await Token.findOne({
@@ -31,13 +35,21 @@ router.post('/sigin', async (ctx, next) => {
         })
     }
     else {
-        rlt = await Token.update(token, {
+        rlt = await Token.update({token: token}, {
             where: {
                 userId: user.id
             }
         })
     }
-    return ctx.send(rlt)
+    if( !rlt ){
+        return ctx.throw(500,'SERVER ERR','UPDATE TOKEN FAIL')
+    }
+    return ctx.body = {
+        name: user.name,
+        nickname: user.nickname,
+        sex: user.sex,
+        token
+    }
 
 })
 
@@ -50,14 +62,16 @@ router.get('/:userId', middle.token.isAdmin , async (ctx, next) => {
 //注册
 router.post('/sigup', async (ctx, next) => {
     const { name, password, nickname, sex } = ctx.request.body
+    if( !name || !password || !nickname || !sex ){
+        return ctx.throw(new FuckError(400, 'BAD_REQUEST', 'NAME AND PASSWORD AND NICKNAME AND SEX IS REQUIRED'))
+    }
     const rt = await User.findOne({
         where: {
             name
         }
     })
-    console.log(rt)
     if( rt ) {
-        return ctx.throw(401,' USER IS EXISTED')
+        return ctx.throw(new FuckError(400,'BAD_REQUEST', ' USER IS EXISTED'))
     }
     const pwd = crypto.createHmac('sha256', password).update('fuck').digest('hex')
     const user = {
@@ -67,18 +81,24 @@ router.post('/sigup', async (ctx, next) => {
         sex
     }
     const rlt = await User.create(user)
-    return ctx.body = 'angry core!'
+    if( !rlt ){
+        return ctx.throw(500,'SERVER ERR','CREATE USER FAIL')
+    }
+    return ctx.body = 'welcome to fuuuuuuuuuuuuuuuuuuuck !'
 })
 
 //登出
 router.post('/sigout' , middle.token.isUser , async (ctx, next) => {
-    const token = ctx.getToken() || ctx.query.token
+    const token = ctx.query.token
     const rlt = await Token.destroy({
         where: {
             token,
         }
     })
-    return ctx.send(rlt)
+    if( !rlt ) {
+        return ctx.throw(500,'SERVER ERR','DELETE TOKEN FAIL')
+    }
+    return ctx.body = 'sigout success!'
 
 })
 
