@@ -7,6 +7,10 @@ function load (component) {
   return () => System.import(`components/${component}.vue`)
 }
 
+function loadView(views) {
+  return () => System.import(`../templates/${views}.vue`)
+}
+
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -23,6 +27,7 @@ export default new VueRouter({
   routes: [
     { path: '/', component: load('Index') }, // Default
     { path: '/home', component: load('Home') },
-    { path: '*', component: load('Error404') } // Not found
+    { path: '/login', component: loadView('login') },
+    { path: '*', component: load('components','Error404') } // Not found
   ]
 })

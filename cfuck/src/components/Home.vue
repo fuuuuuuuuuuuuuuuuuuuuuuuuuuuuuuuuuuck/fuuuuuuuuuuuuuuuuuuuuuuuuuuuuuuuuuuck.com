@@ -1,5 +1,5 @@
 <template>
-    <di id="header" class="header">
+    <div id="header" class="header">
         <ul>
             <li>
                 <span>abc</span>
@@ -11,24 +11,13 @@
                 <span>hi</span>
             </li>
         </ul>
-    </di>
-    <div id="topic" class="topic">
 
-    </div>
+        <div id="topic" class="topic">
+            test
+        </div>
 
-    <div id="footer" class="footer">
-
+        <div id="footer" class="footer">
+            test
+        </div>
     </div>
 </template>
-
-<script>
-    const name = "angry"
-    const apiUrl = "localhost:7000"
-
-</script>
-
-<style>
-    body {
-        background: #000;
-    }
-</style>

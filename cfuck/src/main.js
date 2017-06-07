@@ -10,6 +10,16 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
 
+/*router.beforeEach((to, from, next) => {
+  if(to.path == '/home'){
+    next()
+  }else{
+    next({
+      path: '/home'
+    })
+  }
+})*/
+
 Vue.use(Quasar) // Install Quasar Framework
 
 Quasar.start(() => {
