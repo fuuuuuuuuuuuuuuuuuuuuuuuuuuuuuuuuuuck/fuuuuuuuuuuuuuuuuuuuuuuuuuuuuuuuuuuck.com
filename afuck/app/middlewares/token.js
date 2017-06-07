@@ -1,6 +1,6 @@
 
 const { Token, Reply, Topic } = require('../models')
-const FuckError = require('../error')
+const FuckError = require('../services/error')
 
 const checkToken = {
     isUser : async (ctx, next) => {

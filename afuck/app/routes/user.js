@@ -3,7 +3,7 @@ const middle = require('../middlewares')
 const { User,Token } = require('../models')
 const crypto = require('crypto')
 const router = Router()
-const FuckError = require('../error')
+const FuckError = require('../services/error')
 
 //登陆
 router.post('/sigin', async (ctx, next) => {

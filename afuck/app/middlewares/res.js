@@ -1,4 +1,4 @@
-const FuckError = require('../error')
+const FuckError = require('../services/error')
 const res_format = (ctx) => {
     if(ctx.body && ctx.status < 400) {
         ctx.body = {
