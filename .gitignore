@@ -11,4 +11,4 @@ cordova/platforms
 cordova/plugins
 thumbs.db
 !.gitkeep
-/afuck/config/database.js
+afuck/config/database.js
