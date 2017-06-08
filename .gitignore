@@ -11,4 +11,4 @@ cordova/platforms
 cordova/plugins
 thumbs.db
 !.gitkeep
-database.js
+!database.js
