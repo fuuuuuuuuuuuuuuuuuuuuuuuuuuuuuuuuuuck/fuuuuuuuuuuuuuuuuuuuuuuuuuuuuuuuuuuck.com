@@ -1,43 +1,47 @@
-var
-  config = require('../config'),
-  webpack = require('webpack'),
-  merge = require('webpack-merge'),
-  cssUtils = require('./css-utils'),
-  baseWebpackConfig = require('./webpack.base.conf'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+var utils = require('./utils')
+var path = require('path')
+var webpack = require('webpack')
+var config = require('../config')
+var merge = require('webpack-merge')
+var baseWebpackConfig = require('./webpack.base.conf')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-  baseWebpackConfig.entry[name] = ['./build/hot-reload'].concat(baseWebpackConfig.entry[name])
+    baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 })
 
+function resolveApp(relativePath) {
+    return path.resolve(relativePath);
+}
+
 module.exports = merge(baseWebpackConfig, {
-  // eval-source-map is faster for development
-  devtool: '#cheap-module-eval-source-map',
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
-  },
-  module: {
-    rules: cssUtils.styleRules({
-      sourceMap: config.dev.cssSourceMap,
-      postcss: true
-    })
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'src/index.html',
-      inject: true
-    }),
-    new FriendlyErrorsPlugin({
-      clearConsole: config.dev.clearConsoleOnRebuild
-    })
-  ],
-  performance: {
-    hints: false
-  }
+    module: {
+        rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap})
+    },
+    // cheap-source-map is faster for development
+    devtool: '#cheap-source-map',
+    cache: true,
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': config.dev.env
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            'jQuery': 'jquery'
+        }),
+        // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        // https://github.com/ampedandwired/html-webpack-plugin
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html',
+            favicon: resolveApp('favicon.ico'),
+            inject: true,
+            path:config.dev.staticPath
+        }),
+        new FriendlyErrorsPlugin()
+    ]
 })
