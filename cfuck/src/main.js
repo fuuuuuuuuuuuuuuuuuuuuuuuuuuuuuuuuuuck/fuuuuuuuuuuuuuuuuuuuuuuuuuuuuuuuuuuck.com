@@ -15,6 +15,7 @@ import 'styles/index.scss'; // 全局自定义的css样式
 import 'assets/iconfont/iconfont'; // iconfont 具体图标见https://github.com/PanJiaChen/vue-element-admin/wiki
 import * as filters from './filters'; // 全局vue filter
 import './mock/index.js';  // 该项目所有请求使用mockjs模拟
+import 'vendor/particles.js'
 
 Vue.use(ElementUI);
 

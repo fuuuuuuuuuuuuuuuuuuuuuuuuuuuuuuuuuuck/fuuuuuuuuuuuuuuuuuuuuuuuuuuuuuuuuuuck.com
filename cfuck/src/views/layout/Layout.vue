@@ -1,7 +1,7 @@
 <template>
     <div class="app-wrapper">
         <div class="sidebar-wrapper">
-            dashboard
+            <Background></Background>
         </div>
         <div class="main-container">
             dashboard
@@ -10,9 +10,13 @@
 </template>
 
 <script>
+    import Background  from './Background';
 
     export default {
-      name: 'layout'
+      name: 'layout',
+      components: {
+        Background
+      },
     }
 </script>
 

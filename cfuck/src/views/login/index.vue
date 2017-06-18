@@ -1,9 +1,10 @@
 <template>
     <div class="login-container">
+        <Background></Background>
         <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left"
                  label-width="0px"
                  class="card-box login-form">
-            <h3 class="title">系统登录</h3>
+            <h3 class="title">Fuck</h3>
             <el-form-item prop="email">
                 <span class="svg-container"><wscn-icon-svg icon-class="jiedianyoujian"/></span>
                 <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on"
@@ -20,7 +21,7 @@
                 </el-button>
             </el-form-item>
             <router-link to="/sendpwd" class="forget-pwd">
-                忘记密码?(或首次登录)
+                忘记密码?
             </router-link>
         </el-form>
         <el-dialog title="第三方验证" :visible.sync="showDialog">
@@ -35,9 +36,10 @@
     import { isWscnEmail } from 'utils/validate';
     // import { getQueryObject } from 'utils';
     import socialSign from './socialsignin';
+    import Background  from '../layout/Background';
 
     export default {
-      components: { socialSign },
+      components: { socialSign,Background },
       name: 'login',
       data() {
         const validateEmail = (rule, value, callback) => {
@@ -134,7 +136,6 @@
     .login-container {
         @include relative;
         height: 100vh;
-        background-color: #2d3a4b;
 
         input:-webkit-autofill {
             -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
@@ -146,7 +147,7 @@
             -webkit-appearance: none;
             border-radius: 0px;
             padding: 12px 5px 12px 15px;
-            color: #eeeeee;
+            color: black;
             height: 47px;
         }
         .el-input {
@@ -160,9 +161,8 @@
         }
 
         .title {
-            font-size: 26px;
-            font-weight: 400;
-            color: #eeeeee;
+            font-size: 38px;
+            color: #AEAEAE;
             margin: 0px auto 40px auto;
             text-align: center;
             font-weight: bold;
@@ -176,6 +176,13 @@
             padding: 35px 35px 15px 35px;
             margin: 120px auto;
         }
+        
+        @media screen  and (max-width: 380px){
+            .login-form {
+                width: 320px;
+                padding: 15px;
+            }
+        }
 
         .el-form-item {
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -185,7 +192,7 @@
         }
 
         .forget-pwd {
-            color: #fff;
+            color: #20a0ff;
         }
     }
 
