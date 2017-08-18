@@ -4,17 +4,38 @@ const tokenService = require('../services/token')
 const FuckError = require('../services/error')
 const router = Router()
 
-const { Topic } = require('../models')
+const { Topic, Reply } = require('../models')
 
 //获取主题
 router.get('/', middle.token.isUser, async (ctx, next) => {
+    let { page } = ctx.params
+    page = Number(page)
+    if(! page ){
+        page = 1
+    }
     const topics = await Topic.findAll({
         where: {
             examine: 1
         },
-        limit: 10
+        include:[{
+            model: Reply,
+        }],
+        limit: 10,
+        offset: 1+(page-1)*10
     })
     ctx.body = topics
+})
+
+router.get('/:id(\\d{1,20})', middle.token.isUser, async (ctx, next) => {
+    const { topicId } = ctx.params
+    const topicDetail = await Topic.findOne({
+        where: {
+            topicId,
+            deletedAt: null
+        }
+    })
+    ctx.body = topicDetail
+
 })
 
 
@@ -83,7 +104,7 @@ router.get('/mytopic', middle.token.isMe, async (ctx, next) => {
 })
 
 //删除主题
-router.post('/delete/:topicId', middle.token.isMe, async (ctx, next) => {
+router.delete('/:topicId(\\d{1,20})', middle.token.isMe, async (ctx, next) => {
     const { topicId } = ctx.params
     const rlt  = await Topic.update({ deletedAt: new Date() },{
         where:{
